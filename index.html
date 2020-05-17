@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <title>Document</title> -->
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .daohang {
+      width: 100vw;
+      height: 100vh;
+
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 3;
+    }
+
+    .line {
+      height: 90vh;
+      width: 2px;
+      position: absolute;
+      top: 5vh;
+      left: 20vw;
+      background-color: #ddd;
+    }
+
+    .linecolor {
+      width: 2px;
+      position: absolute;
+      top: 5vh;
+      left: 20vw;
+      background-color: rgba(14, 211, 89, 0.867);
+    }
+
+    .circledh {
+      transform: rotateY(90deg);
+      -ms-transform: rotate(90deg);
+      /* IE 9 */
+      -moz-transform: rotate(90deg);
+      /* Firefox */
+      -webkit-transform: rotate(90deg);
+      /* Safari 和 Chrome */
+      -o-transform: rotate(90deg);
+      transform-origin: 10px 10px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      border-radius: 20px;
+      border: 5px #ddd solid;
+      color: #ddd;
+      /* rgba(14, 211, 89, 0.867) */
+      background-color: #fff;
+      font-size: 20px;
+      font-weight: bolder;
+    }
+
+    .circlebox {
+      margin-top: 5vh;
+      margin-left: 19vw;
+      /* width: 100vw; */
+      height: 90vh;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+
+    .num-color {
+      color: rgba(14, 211, 89, 0.867);
+      /* rgba(14, 211, 89, 0.867) */
+      border: 5px rgba(14, 211, 89, 0.867) solid;
+      /* background-color: rgba(14, 211, 89, 0.867); */
+    }
+
+    .dingwei {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .mainbot {
+      --r: 255;
+      --g: 255;
+      --b: 255;
+      --bg: #121212;
+      display: none;
+      -webkit-transition: background 2s ease-in-out;
+      transition: background 2s ease-in-out;
+      background-color: #121212;
+      position: fixed;
+      top: 85vh;
+      left: 80vw;
+      z-index: 8;
+
+    }
+
+    .circle {
+      --scale: 1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      width: var(--size);
+      height: var(--size);
+      -webkit-animation: pulse 3s infinite ease-in-out;
+      animation: pulse 3s infinite ease-in-out;
+      -webkit-transition: background 2s ease-in-out;
+      transition: background 2s ease-in-out;
+      /* apparently having using var in rgb breaks sass... */
+      background: rgb(var(--r), var(--g), var(--b));
+      mix-blend-mode: luminosity;
+    }
+
+    .circle--1 {
+      opacity: 1;
+      -webkit-animation-delay: 0.12s;
+      animation-delay: 0.12s;
+      --size: calc(20px * 1);
+    }
+
+    .circle--2 {
+      opacity: 0.5;
+      -webkit-animation-delay: 0.24s;
+      animation-delay: 0.24s;
+      --size: calc(20px * 2);
+    }
+
+    .circle--3 {
+      opacity: 0.3333;
+      -webkit-animation-delay: 0.36s;
+      animation-delay: 0.36s;
+      --size: calc(20px * 3);
+    }
+
+    .circle--4 {
+      opacity: 0.25;
+      -webkit-animation-delay: 0.48s;
+      animation-delay: 0.48s;
+      --size: calc(20px * 4);
+    }
+
+    .circle--5 {
+      opacity: 0.2;
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s;
+      --size: calc(20px * 5);
+    }
+
+    .circle--6 {
+      opacity: 0.1666;
+      -webkit-animation-delay: 0.72s;
+      animation-delay: 0.72s;
+      --size: calc(20px * 6);
+    }
+
+    @-webkit-keyframes pulse {
+      0% {
+        -webkit-transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      25% {
+        -webkit-transform: translate(-50%, -50%) scale(1.3);
+        transform: translate(-50%, -50%) scale(1.3);
+      }
+
+      50% {
+        -webkit-transform: translate(-50%, -50%) scale(0.70);
+        transform: translate(-50%, -50%) scale(0.70);
+      }
+
+      75% {
+        -webkit-transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        -webkit-transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      25% {
+        -webkit-transform: translate(-50%, -50%) scale(1.3);
+        transform: translate(-50%, -50%) scale(1.3);
+      }
+
+      50% {
+        -webkit-transform: translate(-50%, -50%) scale(0.70);
+        transform: translate(-50%, -50%) scale(0.70);
+      }
+
+      75% {
+        -webkit-transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    .start{
+      position: fixed;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      bottom: 10px;
+      left:10px;
+      color: #fff;
+      background-color: red;
+      z-index: 999;
+      display: flex;
+      justify-items: center;
+      justify-content: center;
+      border:none;
+      transform:rotate(90deg);
+      -ms-transform:rotate(90deg); 	/* IE 9 */
+      -moz-transform:rotate(90deg); 	/* Firefox */
+      -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
+      -o-transform:rotate(90deg);
+    }
+  </style>
+</head>
+
+<body>
+  <button class="start" type="button"></button>
+  <div class="mainbot">
+    <div class='circle circle--1'></div>
+    <div class='circle circle--2'></div>
+    <div class='circle circle--3'></div>
+    <div class='circle circle--4'></div>
+    <div class='circle circle--5'></div>
+    <div class='circle circle--6'></div>
+  </div>
+  <div class="daohang">
+    <div class="line"></div>
+    <div class="linecolor"></div>
+    <div class="circlebox">
+      <div data-num="1" class="circledh num1 num-color"></div>
+      <div data-num="2" class="circledh num2"></div>
+      <div data-num="3" class="circledh num3"></div>
+      <div data-num="4" class="circledh num4"></div>
+      <div data-num="5" class="circledh num5"></div>
+      <div data-num="6" class="circledh num6"></div>
+      <div data-num="7" class="circledh num7"></div>
+      <div data-num="8" class="circledh num8"></div>
+      <div data-num="9" class="circledh num9"></div>
+      <div data-num="10" class="circledh num10"></div>
+    </div>
+  </div>
+  <div id="cover" style="width: 100vw;height: 100vh;overflow:hidden">
+    <img id="bg1" style="position: absolute; top:0;height: 100vh;width: 100vw;z-index: 1;" src="./images/bg1.png">
+    <img id="bg2" style="position: relative;height: 1500vh;width: 100vw" src="./images/bg2.png">
+  </div>
+  <div class="box box-1 dingwei" style="opacity: 1;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/01font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/01image.png">
+  </div>
+  <div class="box box-2 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/02font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/02image.png">
+  </div>
+  <div class="box box-3 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/03font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/03image.png">
+  </div>
+  <div class="box box-4 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/04font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/04image.png">
+  </div>
+  <div class="box box-5 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/05font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/05image.png">
+  </div>
+  <div class="box box-6 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/06font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/06image.png">
+  </div>
+  <div class="box box-7 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/07font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/07image.png">
+  </div>
+  <div class="box box-8 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/08font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/08image.png">
+  </div>
+  <div class="box box-9 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/09font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/09image.png">
+  </div>
+  <div class="box box-10 dingwei" style="opacity: 0;">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/10font.png">
+    <img style="position: absolute;height: 100vh;width: 100vw;" src="./images/10image.png">
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  <script>
+    var winH = $(window).height();
+    console.log(winH)
+    var s = 0;
+    var e = 0;
+    var t = 0;
+    var int
+     $('.start').on("touchstart", function (e) {
+      int = setInterval(function(){
+        t-=5
+        $('#bg2').css({
+          top: t
+        })
+        move(t*-1);
+      },10)
+    })
+    $('.start').on("touchend", function (e) {
+      clearInterval(int)
+    })
+
+    // $(document).on("touchstart", function (e) {
+    //   var touch = e.originalEvent.targetTouches[0];
+    //   var y = touch.pageY;
+    //   s = y;
+    // })
+    // $(document).on("touchmove", function (e) {
+    //   var touch = e.originalEvent.targetTouches[0];
+    //   var y = touch.pageY;
+    //   if (t + y - s <= 0) {
+    //     $('#bg2').css({
+    //       top: t + y - s
+    //     })
+    //     move((t + y - s) * -1);
+    //   } else {
+    //     s = 0;
+    //     e = 0;
+    //     t = 0;
+    //   }
+    // })
+    // $(document).on("touchend", function (e) {
+    //   var touch = e.originalEvent.changedTouches[0];
+    //   var y = touch.pageY;
+    //   if (t + y - s <= 0) {
+    //     e = y;
+    //     t = t + e - s;
+    //   } else {
+    //     s = 0;
+    //     e = 0;
+    //     t = 0;
+    //   }
+    // })
+
+    $('.circledh').click(function () {
+      hideSun()
+      var dataNum = $(this).data('num')
+      console.log(dataNum)
+      $('.circledh').removeClass('num-color')
+      $(this).addClass('num-color')
+      if (dataNum == 1) {
+        $('#bg2').css({
+          top: 0
+        })
+        t = 0
+      } else {
+        $('#bg2').css({
+          top: -1 * winH * dataNum + (winH / 2)
+        })
+        t = -1 * winH * dataNum + (winH / 2)
+        //第9屏显示太阳
+        if(dataNum == 9){
+          showSun()
+        }
+      }
+      $('.box').css({
+        opacity: 0
+      })
+      $('.box-' + dataNum).css({
+        opacity: 1
+      })
+    })
+
+    function move(t) {
+      console.log('t',t)
+      hideSun();
+      $('.box').css({
+        opacity: 0
+      })
+      $('.circledh').removeClass('num-color');
+      if (t <= winH) {
+        //第1屏
+        console.log(1)
+        var a = t / (winH / 2);
+        $('.box-1').css({
+          opacity: 1
+        })
+        $('.num1').addClass('num-color')
+      }
+      if (t > winH && t <= winH * 2) {
+        //第2屏
+        console.log(2)
+        var a = (t - winH) / (winH / 2);
+        $('.box-2').css({
+          opacity: a
+        })
+        $('.num2').addClass('num-color')
+      }
+      if (t > winH * 2 && t <= winH * 3) {
+        //第3屏
+        console.log(3)
+        var a = (t - winH * 2) / (winH / 2);
+        $('.box-3').css({
+          opacity: a
+        })
+        $('.num3').addClass('num-color')
+      }
+      if (t > winH * 3 && t <= winH * 4) {
+        //第4屏
+        console.log(4)
+        var a = (t - winH * 3) / (winH / 2);
+        $('.box-4').css({
+          opacity: a
+        })
+        $('.num4').addClass('num-color')
+      }
+      if (t > winH * 4 && t <= winH * 5) {
+        //第5屏
+        console.log(5)
+        var a = (t - winH * 4) / (winH / 2);
+        $('.box-5').css({
+          opacity: a
+        })
+        $('.num5').addClass('num-color')
+      }
+      if (t > winH * 5 && t <= winH * 6) {
+        //第6屏
+        console.log(6)
+        var a = (t - winH * 5) / (winH / 2);
+        $('.box-6').css({
+          opacity: a
+        })
+        $('.num6').addClass('num-color')
+      }
+      if (t > winH * 6 && t <= winH * 7) {
+        //第7屏
+        console.log(7)
+        var a = (t - winH * 6) / (winH / 2);
+        $('.box-7').css({
+          opacity: a
+        })
+        $('.num7').addClass('num-color')
+      }
+      if (t > winH * 7 && t <= winH * 8) {
+        //第8屏
+        console.log(8)
+        var a = (t - winH * 7) / (winH / 2);
+        $('.box-8').css({
+          opacity: a
+        })
+        $('.num8').addClass('num-color')
+      }
+      if (t > winH * 8 && t <= winH * 9) {
+        //第9屏
+        console.log(9)
+        var a = (t - winH * 8) / (winH / 2);
+        $('.box-9').css({
+          opacity: a
+        })
+        $('.num9').addClass('num-color')
+        //第9屏显示太阳
+        showSun()
+      }
+      if (t > winH * 9 && t <= winH * 10) {
+        //第10屏
+        console.log(10)
+        var a = (t - winH * 9) / (winH / 2);
+        $('.box-10').css({
+          opacity: a
+        })
+        $('.num10').addClass('num-color')
+        //第10屏显示太阳
+        showSun()
+      }
+      if (t > winH * 10 && t <= winH * 11) {
+        window.location.href='./form.html'
+      }
+    }
+
+    //隐藏太阳
+    function hideSun(){
+      $('.mainbot').css({
+        display: 'none'
+      })
+    }
+    //显示太阳
+    function showSun(){
+      $('.mainbot').css({
+        display: 'block'
+      })
+    }
+  </script>
+</body>
+
+</html>
