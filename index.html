@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <title>Document</title> -->
+  <title>demo1</title>
   <style>
     body {
       margin: 0;
@@ -300,18 +300,29 @@
   </div>
   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
   <script>
+    //禁用回弹
+    document.body.addEventListener('touchmove', function (e) {
+        e.preventDefault()
+    }, { passive: false })
     var winH = $(window).height();
     console.log(winH)
-    var s = 0;
-    var e = 0;
-    var t = 0;
+    var s = 0;//按下时的y轴坐标
+    var e = 0;//y轴松开时的y轴坐标
+    var t = 0;//上一次滑动结束的y轴坐标
     var int
-     $('.start').on("touchstart", function (e) {
+    $('.start').on("touchstart", function (e) {
       int = setInterval(function(){
-        t-=5
-        $('#bg2').css({
-          top: t
-        })
+        if((t*-1) <= winH * 10){
+          t-=5
+          $('#bg2').css({
+            top: t
+          })
+        }else{
+          t=0
+          $('#bg2').css({
+            top: t
+          })
+        }
         move(t*-1);
       },10)
     })
@@ -319,37 +330,39 @@
       clearInterval(int)
     })
 
-    // $(document).on("touchstart", function (e) {
-    //   var touch = e.originalEvent.targetTouches[0];
-    //   var y = touch.pageY;
-    //   s = y;
-    // })
-    // $(document).on("touchmove", function (e) {
-    //   var touch = e.originalEvent.targetTouches[0];
-    //   var y = touch.pageY;
-    //   if (t + y - s <= 0) {
-    //     $('#bg2').css({
-    //       top: t + y - s
-    //     })
-    //     move((t + y - s) * -1);
-    //   } else {
-    //     s = 0;
-    //     e = 0;
-    //     t = 0;
-    //   }
-    // })
-    // $(document).on("touchend", function (e) {
-    //   var touch = e.originalEvent.changedTouches[0];
-    //   var y = touch.pageY;
-    //   if (t + y - s <= 0) {
-    //     e = y;
-    //     t = t + e - s;
-    //   } else {
-    //     s = 0;
-    //     e = 0;
-    //     t = 0;
-    //   }
-    // })
+    $(document).on("touchstart", function (e) {
+      var touch = e.originalEvent.targetTouches[0];
+      var y = touch.pageY;
+      s = y;
+    })
+    $(document).on("touchmove", function (e) {
+      var touch = e.originalEvent.targetTouches[0];
+      var y = touch.pageY;
+      var moveY = t + y - s;//y轴相对于0点移动的距离
+      if ( moveY<= 0 && (moveY*-1) <= winH * 10) {
+        $('#bg2').css({
+          top: moveY
+        })
+        move(moveY * -1);
+      } else {
+        s = 0;
+        e = 0;
+        t = 0;
+      }
+    })
+    $(document).on("touchend", function (e) {
+      var touch = e.originalEvent.changedTouches[0];
+      var y = touch.pageY;
+      var moveY = t + y - s;//y轴相对于0点移动的距离
+      if (moveY <= 0 && (moveY*-1) <= winH * 10) {
+        e = y;
+        t = t + e - s; //记录本次滑动结束的y轴坐标
+      } else {
+        s = 0;
+        e = 0;
+        t = 0;
+      }
+    })
 
     $('.circledh').click(function () {
       hideSun()
@@ -480,9 +493,6 @@
         $('.num10').addClass('num-color')
         //第10屏显示太阳
         showSun()
-      }
-      if (t > winH * 10 && t <= winH * 11) {
-        window.location.href='./form.html'
       }
     }
 
